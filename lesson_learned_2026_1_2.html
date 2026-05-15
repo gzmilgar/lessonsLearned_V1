@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Learned 2026 | Build. Learn. Share.</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-1: #00f2fe;
+            --accent-2: #4facfe;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #030008;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, rgba(30, 20, 60, 0.8) 0%, rgba(3, 0, 8, 1) 100%);
+        }
+
+        /* Particles Container */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            /* Arka planın tıklamaları engellememesi için */
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        /* Background Layered Effects */
+        .blur-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .blur-shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 242, 254, 0.2);
+        }
+
+        .blur-shape-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(79, 172, 254, 0.15);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-wrapper {
+            position: relative;
+        }
+
+        .title-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, transparent 65%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, var(--accent-1), var(--accent-2), #fff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text 5s linear infinite;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes gradient-text {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 300% center;
+            }
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #eee;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero .hero-desc {
+            font-size: 1.1rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(45deg, var(--accent-2), var(--accent-1));
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero .btn:hover {
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* Floating Element Class */
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-slow {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Ticker Section */
+        .ticker-section {
+            padding: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ticker-content {
+            display: inline-flex;
+            animation: ticker 30s linear infinite;
+        }
+
+        .ticker-item {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-right: 4rem;
+            color: #ddd;
+            display: flex;
+            align-items: center;
+        }
+
+
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            background: linear-gradient(90deg, var(--accent-1), rgba(255, 255, 255, 0.85));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
+            color: #e8edf5;
+        }
+
+        .glass-card p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--accent-2);
+            border-radius: 50px;
+            color: var(--accent-1);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-outline:hover {
+            background: rgba(79, 172, 254, 0.1);
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        /* Snake Timeline Redesign */
+        .timeline-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+            overflow: hidden;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 2rem 0;
+            /* Vertical gap 2rem, Horizontal 0 for seamless lines */
+            position: relative;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 70px 1.5rem 0 1.5rem;
+            /* 70px top padding for line and dot */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Neon Path Lines using Pseudo-elements */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            /* Halfway in the top padding */
+            height: 4px;
+            background: var(--accent-1);
+            filter: drop-shadow(0 0 8px var(--accent-1));
+            z-index: 0;
+            display: none;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            height: calc(100% + 2rem);
+            /* Exact math: cell height + vertical gap */
+            border: 4px solid var(--accent-1);
+            filter: drop-shadow(0 0 8px var(--accent-1));
+            z-index: 0;
+            display: none;
+        }
+
+        /* Enable paths */
+        .path-start::before,
+        .path-middle::before,
+        .path-curve-right::before,
+        .path-curve-left::before,
+        .path-receive-right::before,
+        .path-receive-left::before {
+            display: block;
+        }
+
+        /* Directions */
+        .path-start::before {
+            left: 50%;
+            width: 50%;
+        }
+
+        .path-middle::before {
+            left: 0;
+            width: 100%;
+        }
+
+        .path-curve-right::before {
+            left: 0;
+            width: 50%;
+        }
+
+        .path-curve-right::after {
+            display: block;
+            left: 50%;
+            width: 50%;
+            border-left: none;
+            border-bottom: none;
+            border-radius: 0 40px 40px 0;
+        }
+
+        .path-receive-right::before {
+            left: 0;
+            width: 50%;
+        }
+
+        .path-curve-left::before {
+            right: 0;
+            width: 50%;
+        }
+
+        .path-curve-left::after {
+            display: block;
+            right: 50%;
+            width: 50%;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 40px 0 0 40px;
+        }
+
+        .path-receive-left::before {
+            left: 50%;
+            width: 50%;
+        }
+
+        /* Timeline Dot */
+        .timeline-dot {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: var(--bg-color);
+            border: 4px solid var(--accent-1);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 15px var(--accent-1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            /* Pill / yuvarlak pencere */
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-3px) scale(1.02);
+            z-index: 5;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-content h4 {
+            color: #e8eaf0;
+            margin-bottom: 0.3rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.75;
+        }
+
+        .timeline-content span {
+            color: var(--accent-1);
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+            opacity: 0.85;
+        }
+
+        .timeline-content p {
+            color: #ffffff;
+            line-height: 1.4;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 0.2rem;
+        }
+
+        /* Soft Glow Themes — göz yormayan, profesyonel */
+        .glow-director .timeline-dot {
+            border-color: #f0c040;
+            box-shadow: 0 0 8px rgba(240, 192, 64, 0.7);
+        }
+
+        .glow-director .timeline-content {
+            border-color: rgba(240, 192, 64, 0.35);
+            box-shadow: 0 4px 18px rgba(240, 192, 64, 0.1);
+        }
+
+        .glow-director .timeline-content span {
+            color: #f0c040;
+        }
+
+        .glow-director .timeline-content p {
+            font-size: 1.05rem;
+        }
+
+        .glow-head .timeline-dot {
+            border-color: #5bb8e8;
+            box-shadow: 0 0 8px rgba(91, 184, 232, 0.7);
+        }
+
+        .glow-head .timeline-content {
+            border-color: rgba(91, 184, 232, 0.35);
+            box-shadow: 0 4px 18px rgba(91, 184, 232, 0.1);
+        }
+
+        .glow-head .timeline-content span {
+            color: #5bb8e8;
+        }
+
+        .glow-team-A .timeline-dot {
+            border-color: #5b9bd5;
+            box-shadow: 0 0 7px rgba(91, 155, 213, 0.6);
+        }
+
+        .glow-team-A .timeline-content {
+            border-color: rgba(91, 155, 213, 0.3);
+            box-shadow: 0 4px 15px rgba(91, 155, 213, 0.1);
+        }
+
+        .glow-team-B .timeline-dot {
+            border-color: #5dba80;
+            box-shadow: 0 0 7px rgba(93, 186, 128, 0.6);
+        }
+
+        .glow-team-B .timeline-content {
+            border-color: rgba(93, 186, 128, 0.3);
+            box-shadow: 0 4px 15px rgba(93, 186, 128, 0.1);
+        }
+
+        .glow-team-C .timeline-dot {
+            border-color: #d97eb0;
+            box-shadow: 0 0 7px rgba(217, 126, 176, 0.6);
+        }
+
+        .glow-team-C .timeline-content {
+            border-color: rgba(217, 126, 176, 0.3);
+            box-shadow: 0 4px 15px rgba(217, 126, 176, 0.1);
+        }
+
+        .glow-team-D .timeline-dot {
+            border-color: #5ecfcf;
+            box-shadow: 0 0 7px rgba(94, 207, 207, 0.6);
+        }
+
+        .glow-team-D .timeline-content {
+            border-color: rgba(94, 207, 207, 0.3);
+            box-shadow: 0 4px 15px rgba(94, 207, 207, 0.1);
+        }
+
+        .glow-team-E .timeline-dot {
+            border-color: #d4855a;
+            box-shadow: 0 0 7px rgba(212, 133, 90, 0.6);
+        }
+
+        .glow-team-E .timeline-content {
+            border-color: rgba(212, 133, 90, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 133, 90, 0.1);
+        }
+
+        .glow-team-F .timeline-dot {
+            border-color: #52b5a0;
+            box-shadow: 0 0 7px rgba(82, 181, 160, 0.6);
+        }
+
+        .glow-team-F .timeline-content {
+            border-color: rgba(82, 181, 160, 0.3);
+            box-shadow: 0 4px 15px rgba(82, 181, 160, 0.1);
+        }
+
+        .glow-break .timeline-dot {
+            border-color: #b0856a;
+            box-shadow: 0 0 7px rgba(176, 133, 106, 0.6);
+        }
+
+        .glow-break .timeline-content {
+            border-color: rgba(176, 133, 106, 0.3);
+            box-shadow: 0 4px 15px rgba(176, 133, 106, 0.1);
+        }
+
+        .glow-break .timeline-content span {
+            color: #d4a06a;
+        }
+
+        /* Snake Layout Desktop */
+        @media (min-width: 769px) {
+            .timeline::before {
+                display: none;
+            }
+
+            .timeline-item:nth-child(1) {
+                grid-area: 1 / 1 / 2 / 2;
+            }
+
+            .timeline-item:nth-child(2) {
+                grid-area: 1 / 2 / 2 / 3;
+            }
+
+            .timeline-item:nth-child(3) {
+                grid-area: 1 / 3 / 2 / 4;
+            }
+
+            .timeline-item:nth-child(4) {
+                grid-area: 2 / 3 / 3 / 4;
+            }
+
+            .timeline-item:nth-child(5) {
+                grid-area: 2 / 2 / 3 / 3;
+            }
+
+            .timeline-item:nth-child(6) {
+                grid-area: 2 / 1 / 3 / 2;
+            }
+
+            .timeline-item:nth-child(7) {
+                grid-area: 3 / 1 / 4 / 2;
+            }
+
+            .timeline-item:nth-child(8) {
+                grid-area: 3 / 2 / 4 / 3;
+            }
+
+            .timeline-item:nth-child(9) {
+                grid-area: 3 / 3 / 4 / 4;
+            }
+
+            .timeline-item:nth-child(10) {
+                grid-area: 4 / 3 / 5 / 4;
+            }
+
+            .timeline-item:nth-child(11) {
+                grid-area: 4 / 2 / 5 / 3;
+            }
+
+            .timeline-item:nth-child(12) {
+                grid-area: 4 / 1 / 5 / 2;
+            }
+
+            .timeline-item:nth-child(13) {
+                grid-area: 5 / 1 / 6 / 2;
+            }
+
+            .timeline-item:nth-child(14) {
+                grid-area: 5 / 2 / 6 / 3;
+            }
+
+            .timeline-item:nth-child(15) {
+                grid-area: 5 / 3 / 6 / 4;
+            }
+
+            .timeline-item:nth-child(16) {
+                grid-area: 6 / 3 / 7 / 4;
+            }
+
+            .timeline-item:nth-child(17) {
+                grid-area: 6 / 2 / 7 / 3;
+            }
+        }
+
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--card-border);
+            color: #666;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 14px rgba(154, 230, 180, 0.18);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 24px rgba(154, 230, 180, 0.45);
+                transform: scale(1.04);
+            }
+        }
+
+        /* GSAP Initial States */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .timeline {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                padding: 2rem 1rem;
+            }
+
+            .timeline-item {
+                padding: 0;
+                width: 100%;
+            }
+
+            .timeline-item::before,
+            .timeline-item::after {
+                display: none !important;
+            }
+
+            /* Simple vertical line for mobile */
+            .timeline::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 30px;
+                width: 4px;
+                height: 100%;
+                background: var(--accent-1);
+                box-shadow: 0 0 15px var(--accent-1);
+            }
+
+            .timeline-dot {
+                left: 30px;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .timeline-content {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Blur Shapes for background depth -->
+    <div class="blur-shape blur-shape-1"></div>
+    <div class="blur-shape blur-shape-2"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content floating-slow" id="parallax-container">
+            <div class="hero-badge" id="hero-badge">
+                <span style="font-size: 1.2rem;">🚀</span> SAP Tech Event
+            </div>
+
+            <div class="title-wrapper floating" style="animation-delay: 0.5s;">
+                <div class="title-glow"></div>
+                <h1 id="hero-title">Lesson Learned 2026</h1>
+            </div>
+
+            <h2 id="hero-subtitle">Build. Learn. Share.</h2>
+
+
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
+                <a href="#topics" class="btn floating" style="animation-delay: 1s;" id="hero-btn-sunum">
+                    Sunum Konu Başlıkları <span style="font-size: 1.2rem;">→</span>
+                </a>
+                <a href="#timeline" class="btn floating" style="animation-delay: 1.2s;" id="hero-btn">
+                    Etkinlik Akışı <span style="font-size: 1.2rem;">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sunum Konu Başlıkları -->
+    <section id="topics" class="container">
+        <h2 class="section-title gsap-reveal" style="text-align:center;">Sunum Konu Başlıkları</h2>
+        <p
+            style="text-align:center; color:rgba(255,255,255,0.55); font-size:0.95rem; margin-bottom:2.5rem; margin-top:-1rem;">
+            Her ekibin sunumunda aşağıdaki konulara yer vermesi beklenmektedir.</p>
+        <div class="cards-grid"
+            style="grid-template-columns: repeat(3, 1fr); gap: 1.8rem; max-width: 1280px; margin: 0 auto;">
+
+            <!-- Kart 1 — Ekibim: Geleceğin Hikayesi -->
+            <div class="glass-card gsap-reveal"
+                style="border-radius:24px; border-color: rgba(99,179,237,0.35); box-shadow: 0 4px 20px rgba(99,179,237,0.1); text-align:center; padding: 2rem 1.5rem; display:flex; flex-direction:column; align-items:stretch;">
+                <div style="font-size:2rem; margin-bottom:1rem;">🌟</div>
+                <h3 style="font-size:1.1rem; color:#a8d4f5; margin-bottom:0.8rem;">Ekibim: Geleceğin Hikayesi</h3>
+                <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:1rem;">
+                    Ekibini anlat, geleceğe nasıl yön verdiğini göster.</p>
+                <ul
+                    style="list-style:none; padding:0; margin:0 0 1rem; text-align:left; font-size:0.82rem; color:rgba(255,255,255,0.75); line-height:1.55; display:flex; flex-direction:column; gap:0.55rem;">
+                    <li style="display:flex; gap:0.55rem;"><span style="color:#a8d4f5; font-weight:700;">▸</span><span>Ekip üyelerin
+                            kimler? <em style="color:rgba(255,255,255,0.5);">(Her üye için 1 güçlü özellik)</em></span>
+                    </li>
+                    <li style="display:flex; gap:0.55rem;"><span style="color:#a8d4f5; font-weight:700;">▸</span><span>Sizi farklı kılan
+                            güçlü yönleriniz neler?</span></li>
+                    <li style="display:flex; gap:0.55rem;"><span style="color:#a8d4f5; font-weight:700;">▸</span><span>Birlikte nasıl değer
+                            üreteceksiniz?</span></li>
+                </ul>
+                <div
+                    style="background:rgba(99,179,237,0.06); border-left:3px solid rgba(99,179,237,0.4); border-radius:8px; padding:0.7rem 0.9rem; text-align:left; font-size:0.78rem; color:rgba(255,255,255,0.65); font-style:italic; line-height:1.5; margin-bottom:1rem;">
+                    💡 İpucu: Kısa, samimi ve unutulmaz bir hikaye anlatın.
+                </div>
+                <div style="margin-top:auto;">
+                    <div
+                        style="display:inline-block; padding:0.3rem 0.7rem; background:rgba(99,179,237,0.12); border:1px solid rgba(99,179,237,0.3); border-radius:999px; font-size:0.72rem; color:#a8d4f5; font-weight:600;">
+                        ⏱ Toplam Süre 2 dk
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Kart 2 — Yeni Teknolojiler (BTP) -->
+            <div class="glass-card gsap-reveal topic-card" onclick="toggleTopic('topic-detail-2', this)"
+                style="border-radius:24px; border-color: rgba(154,230,180,0.35); box-shadow: 0 4px 20px rgba(154,230,180,0.1); text-align:center; padding: 2rem 1.5rem; cursor:pointer; transition: all 0.3s ease; display:flex; flex-direction:column; align-items:stretch;">
+                <div style="font-size:2rem; margin-bottom:1rem;">🔬</div>
+                <h3 style="font-size:1.1rem; color:#9ae6b4; margin-bottom:0.6rem;">Yeni Teknolojiler</h3>
+                <div
+                    style="background:rgba(255,200,80,0.1); border:1px solid rgba(255,200,80,0.35); border-radius:10px; padding:0.55rem 0.8rem; margin-bottom:0.9rem; font-size:0.78rem; color:#ffd57a; line-height:1.45;">
+                    📌 <strong>Her ekibe özel BTP servisi atandı.</strong> Atanan servisi sunmanız beklenmektedir.
+                </div>
+                <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:0.9rem;">
+                    Sunumunuzda aşağıdaki noktalara değinmenizi rica ederiz:</p>
+                <ul
+                    style="list-style:none; padding:0; margin:0; text-align:left; font-size:0.8rem; color:rgba(255,255,255,0.7); line-height:1.55; display:flex; flex-direction:column; gap:0.45rem;">
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#9ae6b4;">▸</span><span>Servisin ne
+                            olduğunu</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#9ae6b4;">▸</span><span>Hangi problemi
+                            çözdüğünü ve ne zaman kullanılacağını</span></li>
+                    <li style="display:flex; gap:0.5rem;"><span style="color:#9ae6b4;">▸</span><span>Kısa bir görsel,
+                            demo veya örnek kullanımını paylaşın</span></li>
+                </ul>
+                <div style="margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:0.8rem; padding-top:1rem;">
+                    <div
+                        style="display:inline-block; padding:0.3rem 0.7rem; background:rgba(154,230,180,0.12); border:1px solid rgba(154,230,180,0.3); border-radius:999px; font-size:0.72rem; color:#9ae6b4; font-weight:600;">
+                        ⏱ Toplam Süre 4 dk
+                    </div>
+                    <div
+                        style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.55rem 1.1rem; background:linear-gradient(135deg, rgba(154,230,180,0.25), rgba(154,230,180,0.1)); border:1.5px solid rgba(154,230,180,0.55); border-radius:999px; font-size:0.82rem; color:#9ae6b4; font-weight:700; letter-spacing:0.02em; box-shadow:0 0 16px rgba(154,230,180,0.2); animation: pulseGlow 2.4s ease-in-out infinite;">
+                        👉 Atanan servisi görmek için tıkla
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Kart 3 -->
+            <div class="glass-card gsap-reveal"
+                style="border-radius:24px; border-color: rgba(250,176,106,0.35); box-shadow: 0 4px 20px rgba(250,176,106,0.1); text-align:center; padding: 2rem 1.5rem; display:flex; flex-direction:column; align-items:stretch;">
+                <div style="font-size:2rem; margin-bottom:1rem;">🤖</div>
+                <h3 style="font-size:1.1rem; color:#fac575; margin-bottom:0.6rem;">AI ile Tasarla, Geliştir, Yayınla
+                </h3>
+                <p
+                    style="font-size:0.82rem; color:#fac575; font-style:italic; font-weight:600; margin:0 0 0.9rem; letter-spacing:0.02em;">
+                    "Hayalini Kur, AI ile Hayata Geçir"</p>
+                <p style="font-size:0.85rem; color:rgba(255,255,255,0.65); line-height:1.6; margin:0 0 1rem;">Aklınızdaki bir
+                    uygulama fikrini <strong style="color:rgba(255,255,255,0.9);">(SAP veya non-SAP)</strong> AI
+                    destekli araçlarla tasarımdan koda, koddan yayına kadar hayata geçirin. Süreci ekibinizle birlikte
+                    deneyimleyin ve <strong style="color:#fac575;">canlı demo</strong> ile paylaşın.</p>
+                <div style="margin-top:auto;">
+                    <div
+                        style="display:inline-block; padding:0.3rem 0.7rem; background:rgba(250,176,106,0.12); border:1px solid rgba(250,176,106,0.3); border-radius:999px; font-size:0.72rem; color:#fac575; font-weight:600;">
+                        ⏱ Toplam Süre 4 dk
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div> <!-- End of cards-grid -->
+
+        <!-- Container for Details (Outside the Grid) -->
+        <div style="max-width: 1280px; margin: 2rem auto 0;">
+
+            <!-- Accordion Detay — Kart 2 (BTP Services) -->
+            <div id="topic-detail-2"
+                style="display:none; background:rgba(20,50,30,0.6); border:1.5px solid rgba(154,230,180,0.25); border-radius:20px; padding:2rem 2.5rem; animation: fadeSlideDown 0.4s ease;">
+                <div style="text-align:center; margin-bottom:1.8rem;">
+                    <div style="font-size:1.8rem; margin-bottom:0.6rem;">🎤</div>
+                    <h4 style="font-size:1.05rem; color:#9ae6b4; font-weight:700; margin:0; line-height:1.6;">Sunum
+                        Konuları & Sunucuları</h4>
+                    <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-top:0.5rem; max-width:760px; margin-left:auto; margin-right:auto;">
+                        Her ekip aşağıdaki konuyu sunumunda ele alacaktır. Konular SAP BTP'nin üç ana başlık altında
+                        gruplandırılmıştır.</p>
+                </div>
+
+                <!-- Sunum Konuları — 3 Kategori -->
+                <div class="presenter-grid"
+                    style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1.4rem; margin-bottom:2.2rem;">
+
+                    <!-- Integration Suite -->
+                    <div
+                        style="background: linear-gradient(160deg, rgba(99,179,237,0.08) 0%, rgba(99,179,237,0.03) 100%); border:1px solid rgba(99,179,237,0.3); border-radius:16px; padding:1.4rem 1.2rem; display:flex; flex-direction:column; gap:0.9rem;">
+                        <div
+                            style="display:flex; align-items:center; gap:0.6rem; padding-bottom:0.7rem; border-bottom:1px solid rgba(99,179,237,0.2);">
+                            <span style="font-size:1.4rem;">🔗</span>
+                            <div>
+                                <div style="font-size:1rem; color:#a8d4f5; font-weight:700;">Integration Suite</div>
+                            </div>
+                        </div>
+                        <div
+                            style="background:rgba(99,179,237,0.05); border:1px solid rgba(99,179,237,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">API
+                                Management</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                API'leri merkezi yayınlama, güvenlik ve monetizasyon platformu. API Designer + API Portal
+                                + Developer Hub bileşenlerinden oluşur.</p>
+                            <div
+                                style="font-size:0.78rem; color:#a8d4f5; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Oğuzhan Gürel</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(99,179,237,0.05); border:1px solid rgba(99,179,237,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">Event
+                                Mesh / Advanced Event Mesh</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Olay-tabanlı (event-driven) mimari için pub/sub mesajlaşma servisi. AEM, multi-broker ve
+                                region replication ekler.</p>
+                            <div
+                                style="font-size:0.78rem; color:#a8d4f5; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Şükran Saygılı</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- Extension Suite -->
+                    <div
+                        style="background: linear-gradient(160deg, rgba(154,230,180,0.08) 0%, rgba(154,230,180,0.03) 100%); border:1px solid rgba(154,230,180,0.3); border-radius:16px; padding:1.4rem 1.2rem; display:flex; flex-direction:column; gap:0.9rem;">
+                        <div
+                            style="display:flex; align-items:center; gap:0.6rem; padding-bottom:0.7rem; border-bottom:1px solid rgba(154,230,180,0.2);">
+                            <span style="font-size:1.4rem;">🧩</span>
+                            <div>
+                                <div style="font-size:1rem; color:#9ae6b4; font-weight:700;">Extension Suite</div>
+                            </div>
+                        </div>
+                        <div
+                            style="background:rgba(154,230,180,0.05); border:1px solid rgba(154,230,180,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">SAP Build
+                                Apps</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Low-code / no-code uygulama geliştirme (eski AppGyver). Web ve mobil uygulamaları görsel
+                                olarak inşa eder.</p>
+                            <div
+                                style="font-size:0.78rem; color:#9ae6b4; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Dilan Yılmaz</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(154,230,180,0.05); border:1px solid rgba(154,230,180,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">SAP Build
+                                Process Automation</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                İş süreci otomasyonu, workflow ve RPA özelliklerini birleştiren platform.</p>
+                            <div
+                                style="font-size:0.78rem; color:#9ae6b4; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Ramazan Dülek</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(154,230,180,0.05); border:1px solid rgba(154,230,180,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">SAP Build
+                                Work Zone (Standard / Advanced)</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Çalışanlar için tek noktadan erişim sağlayan dijital iş yeri / portal.</p>
+                            <div
+                                style="font-size:0.78rem; color:#9ae6b4; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Korhan Kara</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(154,230,180,0.05); border:1px solid rgba(154,230,180,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">Cloud
+                                Application Programming Model (CAP)</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Node.js / Java tabanlı kurumsal uygulama framework'ü.</p>
+                            <div
+                                style="font-size:0.78rem; color:#9ae6b4; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Orkun Sözen</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(154,230,180,0.05); border:1px solid rgba(154,230,180,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">SAP
+                                Mobile Services</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Kurumsal mobil uygulamalar için altyapı.</p>
+                            <div
+                                style="font-size:0.78rem; color:#9ae6b4; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Ahmet Bozdağ</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- AI Foundation -->
+                    <div
+                        style="background: linear-gradient(160deg, rgba(250,176,106,0.08) 0%, rgba(250,176,106,0.03) 100%); border:1px solid rgba(250,176,106,0.3); border-radius:16px; padding:1.4rem 1.2rem; display:flex; flex-direction:column; gap:0.9rem;">
+                        <div
+                            style="display:flex; align-items:center; gap:0.6rem; padding-bottom:0.7rem; border-bottom:1px solid rgba(250,176,106,0.2);">
+                            <span style="font-size:1.4rem;">🤖</span>
+                            <div>
+                                <div style="font-size:1rem; color:#fac575; font-weight:700;">AI Foundation</div>
+                            </div>
+                        </div>
+                        <div
+                            style="background:rgba(250,176,106,0.05); border:1px solid rgba(250,176,106,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">
+                                Generative AI Hub</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                AI Core üstünde hazır LLM erişimi (GPT, Claude, Gemini, Mistral vb.).</p>
+                            <div
+                                style="font-size:0.78rem; color:#fac575; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Barış Güler</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(250,176,106,0.05); border:1px solid rgba(250,176,106,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">Joule
+                            </div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                SAP'nin generatif AI asistanı (Joule Studio dahil).</p>
+                            <div
+                                style="font-size:0.78rem; color:#fac575; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Tolga Dırmıkcı</strong></div>
+                        </div>
+                        <div
+                            style="background:rgba(250,176,106,0.05); border:1px solid rgba(250,176,106,0.15); border-radius:12px; padding:0.9rem;">
+                            <div style="font-size:0.92rem; color:#fff; font-weight:600; margin-bottom:0.35rem;">Document
+                                Information Extraction (DOX)</div>
+                            <p
+                                style="font-size:0.8rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0 0 0.7rem;">
+                                Faturalar, sözleşmeler gibi belgelerden yapılandırılmış veri çıkarma.</p>
+                            <div
+                                style="font-size:0.78rem; color:#fac575; display:flex; align-items:center; gap:0.4rem;">
+                                <span>🎙️</span><strong>Doğa Almira Balkan</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Responsive: 3 → 1 sütun on mobile -->
+                <style>
+                    @media (max-width: 900px) {
+                        .presenter-grid { grid-template-columns: 1fr !important; }
+                    }
+                </style>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Event Timeline -->
+    <section class="timeline-section" id="timeline">
+        <h2 class="section-title gsap-reveal" style="text-align: center;">Etkinlik Akışı</h2>
+        <div class="timeline">
+            <!-- 1. Açılış Konuşması -->
+            <div class="timeline-item glow-director path-start gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:00 - 10:05 (5 dk)</span>
+                    <h4>👑 Açılış Konuşması</h4>
+                    <p>⭐ <strong>Öner Öztürk & Mehmet Can Dik</strong></p>
+                </div>
+            </div>
+            <!-- 2. Başak / Tolga -->
+            <div class="timeline-item glow-team-A path-middle gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:05 - 10:15 (10 dk)</span>
+                    <h4>💻 Başak Özoğul Grubu</h4>
+                    <p>🎙️ <strong>Tolga Dırmıkcı</strong></p>
+                </div>
+            </div>
+            <!-- 3. Başak / Doğa -->
+            <div class="timeline-item glow-team-A path-curve-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:15 - 10:25 (10 dk)</span>
+                    <h4>💻 Başak Özoğul Grubu</h4>
+                    <p>🎙️ <strong>Doğa Almira Balkan</strong></p>
+                </div>
+            </div>
+            <!-- 4. Yunus E K / Oğuzhan -->
+            <div class="timeline-item glow-team-B path-receive-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:25 - 10:35 (10 dk)</span>
+                    <h4>☁️ Yunus Emre Karaman Grubu</h4>
+                    <p>🎙️ <strong>Oğuzhan Gürel</strong></p>
+                </div>
+            </div>
+            <!-- 5. Yunus E K / Ramazan -->
+            <div class="timeline-item glow-team-B path-middle gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:35 - 10:45 (10 dk)</span>
+                    <h4>☁️ Yunus Emre Karaman Grubu</h4>
+                    <p>🎙️ <strong>Ramazan Dülek</strong></p>
+                </div>
+            </div>
+            <!-- 6. Rumeysa / Korhan -->
+            <div class="timeline-item glow-team-C path-curve-left gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:45 - 10:55 (10 dk)</span>
+                    <h4>⚙️ Rumeysa Nur Küçük Grubu</h4>
+                    <p>🎙️ <strong>Korhan Kara</strong></p>
+                </div>
+            </div>
+            <!-- 7. Rumeysa / Dilan -->
+            <div class="timeline-item glow-team-C path-receive-left gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>10:55 - 11:05 (10 dk)</span>
+                    <h4>⚙️ Rumeysa Nur Küçük Grubu</h4>
+                    <p>🎙️ <strong>Dilan Yılmaz</strong></p>
+                </div>
+            </div>
+            <!-- 8. Kahve ve Network Molası -->
+            <div class="timeline-item glow-break path-middle gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:05 - 11:15 (10 dk)</span>
+                    <h4>☕ Kahve ve Network Molası</h4>
+                    <p>Dinlenme</p>
+                </div>
+            </div>
+            <!-- 9. Director & Head Konuşması -->
+            <div class="timeline-item glow-director path-curve-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:15 - 11:20 (5 dk)</span>
+                    <h4>👑 Director & Head Konuşması</h4>
+                    <p>⭐ <strong>Mehmet Nakilcioğlu & İsmail Fatih Karpınar</strong></p>
+                </div>
+            </div>
+            <!-- 10. Bülent / Orkun -->
+            <div class="timeline-item glow-team-D path-receive-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:20 - 11:30 (10 dk)</span>
+                    <h4>📊 Bülent Özen Grubu</h4>
+                    <p>🎙️ <strong>Orkun Sözen</strong></p>
+                </div>
+            </div>
+            <!-- 11. Yunus E C / Barış -->
+            <div class="timeline-item glow-team-E path-middle gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:30 - 11:40 (10 dk)</span>
+                    <h4>🚀 Yunus Emre Coşkun Grubu</h4>
+                    <p>🎙️ <strong>Barış Güler</strong></p>
+                </div>
+            </div>
+            <!-- 12. Mehmet Esen / Şükran -->
+            <div class="timeline-item glow-team-F path-curve-left gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:40 - 11:50 (10 dk)</span>
+                    <h4>💡 Mehmet Esen Grubu</h4>
+                    <p>🎙️ <strong>Şükran Saygılı</strong></p>
+                </div>
+            </div>
+            <!-- 13. Director Konuşması & Sol. Arc. Ekibi -->
+            <div class="timeline-item glow-director path-receive-left gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>11:50 - 12:00 (10 dk)</span>
+                    <h4>👑 Director Konuşması & Sol. Arc. Ekibi</h4>
+                    <p>⭐ <strong>Ahmet Bozdağ</strong></p>
+                </div>
+            </div>
+            <!-- 14. Yemek Molası -->
+            <div class="timeline-item glow-break path-middle gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>12:00 - 13:00 (1 saat)</span>
+                    <h4>🍽️ Yemek Molası</h4>
+                    <p>Öğle yemeği.</p>
+                </div>
+            </div>
+            <!-- 15. Kimin Şapkası Kimin Başında? -->
+            <div class="timeline-item glow-break path-curve-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>13:00 - 14:00 (1 saat)</span>
+                    <h4 style="color: #d4a06a;">🎩 Kimin Şapkası Kimin Başında?</h4>
+                    <p>🎉 <strong>Sürpriz Etkinlik</strong></p>
+                </div>
+            </div>
+            <!-- 16. Kapanış Konuşması -->
+            <div class="timeline-item glow-director path-receive-right gsap-reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span>14:00 - 14:10 (10 dk)</span>
+                    <h4>👑 Kapanış Konuşması</h4>
+                    <p>⭐ <strong>Serkan Taşkan</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaker Team Modal -->
+    <div id="speaker-modal" class="speaker-modal" role="dialog" aria-modal="true" aria-labelledby="speaker-modal-title">
+        <div class="speaker-modal-backdrop"></div>
+        <div class="speaker-modal-content">
+            <button class="speaker-modal-close" aria-label="Kapat">&times;</button>
+            <div class="speaker-modal-header">
+                <h3 id="speaker-modal-title">Konuşmacı</h3>
+                <p id="speaker-modal-role"></p>
+            </div>
+            <div class="speaker-modal-body">
+                <ul id="speaker-modal-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Speaker link styling in timeline */
+        .speaker-link {
+            cursor: pointer;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.5);
+            transition: color 0.2s ease, border-color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .speaker-link:hover {
+            color: #00ffff;
+            border-bottom-color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+        }
+        .speaker-link.no-team {
+            cursor: default;
+            border-bottom: none;
+        }
+        .speaker-link.no-team:hover {
+            color: inherit;
+            text-shadow: none;
+        }
+
+        /* Modal */
+        .speaker-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .speaker-modal.is-open { display: flex; }
+        .speaker-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 10, 25, 0.78);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .speaker-modal-content {
+            position: relative;
+            width: min(560px, 92vw);
+            max-height: 82vh;
+            overflow: hidden;
+            background: linear-gradient(160deg, rgba(15, 25, 50, 0.96) 0%, rgba(8, 14, 30, 0.96) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            display: flex;
+            flex-direction: column;
+            animation: speakerModalIn 0.28s ease-out;
+        }
+        @keyframes speakerModalIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .speaker-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: #cfd8e3;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 8px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .speaker-modal-close:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+        .speaker-modal-header {
+            padding: 26px 28px 16px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+        }
+        .speaker-modal-header h3 {
+            margin: 0 0 6px;
+            color: #fff;
+            font-size: 1.45rem;
+            letter-spacing: 0.3px;
+        }
+        .speaker-modal-header p {
+            margin: 0;
+            color: #00ffff;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        .speaker-modal-body {
+            padding: 16px 20px 24px;
+            overflow-y: auto;
+        }
+        .speaker-modal-body ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media (min-width: 520px) {
+            .speaker-modal-body ul { grid-template-columns: 1fr 1fr; }
+        }
+        .speaker-modal-body li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(0, 255, 255, 0.04);
+            border: 1px solid rgba(0, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #e6edf5;
+            font-size: 0.92rem;
+        }
+        .speaker-modal-body li .member-name { font-weight: 500; }
+        .speaker-modal-body li .member-level {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+        }
+        .speaker-modal-empty {
+            padding: 16px;
+            text-align: center;
+            color: #aab4c2;
+            font-style: italic;
+        }
+        .speaker-modal-count {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.78rem;
+            color: #aab4c2;
+        }
+    </style>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 SAP Yazılım Ekibi. Created with 💙 for Lesson Learned.</p>
+        </div>
+    </footer>
+
+    <!-- Libraries -->
+    <!-- Particles.js for background animation -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- GSAP for scroll animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Particles.js Configuration
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00ffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 4, "random": true },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00ffff",
+                    "opacity": 0.3,
+                    "width": 1.5
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "top", // Yukarı doğru hafif hareket "Antigravity" hissi
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": { "enable": true, "mode": "bubble" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "bubble": { "distance": 200, "size": 4, "duration": 2, "opacity": 0.8, "speed": 3 },
+                    "push": { "particles_nb": 4 }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Intro Animation
+        const tl = gsap.timeline();
+        tl.to("#hero-badge", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.2 })
+            .to("#hero-title", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            .to("#hero-subtitle", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            .to("#hero-desc", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            .to("#hero-btn", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4")
+            .to("#hero-btn-sunum", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6");
+
+        // Subtle Parallax Effect on Mouse Move
+        document.addEventListener("mousemove", (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 90;
+            const y = (window.innerHeight - e.pageY * 2) / 90;
+            gsap.to("#parallax-container", {
+                x: x,
+                y: y,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        // Scroll Reveal Animations
+        gsap.utils.toArray('.gsap-reveal').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    start: "top 85%", // Tetiklenme noktası
+                    toggleActions: "play none none reverse" // Yukarı çıkıldığında animasyon geri döner
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+
+        // Smooth Scroll for Hero Buttons
+        ['hero-btn', 'hero-btn-topics', 'hero-btn-sunum'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        });
+        // Accordion Toggle Function for Topic Cards
+        function toggleTopic(detailId, cardElem) {
+            const detailElem = document.getElementById(detailId);
+            const isVisible = detailElem.style.display === 'block';
+
+            // Hide all details and remove active class from all cards
+            document.querySelectorAll('[id^="topic-detail-"]').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.topic-card').forEach(el => {
+                el.style.transform = 'translateY(0)';
+                el.style.boxShadow = '';
+            });
+
+            if (!isVisible) {
+                // Show clicked detail
+                detailElem.style.display = 'block';
+                // Add slight emphasis to clicked card
+                cardElem.style.transform = 'translateY(-5px)';
+                cardElem.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            }
+        }
+
+        // Prevent default only on demo buttons (not navigation btn-outlines)
+        document.querySelectorAll('.btn-outline:not([href^="#topics"]):not([href^="#timeline"])').forEach(btn => {
+            btn.addEventListener('click', e => e.preventDefault());
+        });
+
+        /* ============================================================
+           Speaker → Direct Reports Modal
+           Source: ntt-organization-2026-05-06.xlsx (Organization sheet)
+           ============================================================ */
+        const speakerTeams = {
+            "Serkan Taşkan": {
+                role: "Director (L7)",
+                members: [
+                    { name: "Öner Öztürk", level: "L6" },
+                    { name: "Mehmet Nakilcioğlu", level: "L6" },
+                    { name: "Ahmet Bozdağ", level: "L7" }
+                ]
+            },
+            "Öner Öztürk": {
+                role: "Ass. Director (L6) — Project Development",
+                members: [
+                    { name: "Mehmet Can Dik", level: "L5" }
+                ]
+            },
+            "Mehmet Can Dik": {
+                role: "Head (L5) — Project Development",
+                members: [
+                    { name: "Başak Özoğul", level: "L4" },
+                    { name: "Yunus Emre Karaman", level: "L4" },
+                    { name: "Rumeysa Nur Küçük", level: "L4" },
+                    { name: "Rıdvan Özmen", level: "L4" }
+                ]
+            },
+            "Mehmet Nakilcioğlu": {
+                role: "Ass. Director (L6) — Core Technology",
+                members: [
+                    { name: "İsmail Fatih Karpınar", level: "L5" }
+                ]
+            },
+            "İsmail Fatih Karpınar": {
+                role: "Head (L5) — Core Technology",
+                members: [
+                    { name: "Bülent Özen", level: "L4" },
+                    { name: "Yunus Emre Coşkun", level: "L4" },
+                    { name: "Mehmet Esen", level: "L4" },
+                    { name: "Merve Bektaş", level: "L4" },
+                    { name: "Kubilay Yelkenci", level: "L4" }
+                ]
+            },
+            "Tolga Dırmıkcı": {
+                role: "Team Lead — Başak Özoğul Grubu",
+                members: [
+                    { name: "Betül Çakmak", level: "L3" },
+                    { name: "Çağatay Supçin", level: "L3" },
+                    { name: "Melikşah Bilir", level: "L3" },
+                    { name: "Canberk Zor", level: "L2" },
+                    { name: "Ergin Turan Demirci", level: "L2" }
+                ]
+            },
+            "Doğa Almira Balkan": {
+                role: "Team Lead — Başak Özoğul Grubu",
+                members: [
+                    { name: "Emre Yılmaz", level: "L3" },
+                    { name: "Mücahit Yasin Kepek", level: "L3" },
+                    { name: "Kağan Akkaya", level: "L2" },
+                    { name: "Mustafa Gedikli", level: "L1" }
+                ]
+            },
+            "Oğuzhan Gürel": {
+                role: "Team Lead — Yunus Emre Karaman Grubu",
+                members: [
+                    { name: "Arda Özdemir", level: "L3" },
+                    { name: "Yılmaz Kılınç", level: "L3" },
+                    { name: "Esra Calbaz", level: "L2" },
+                    { name: "Ömer Enes Yıldız", level: "L2" }
+                ]
+            },
+            "Ramazan Dülek": {
+                role: "Team Lead — Yunus Emre Karaman Grubu",
+                members: [
+                    { name: "Mustafa Güneş", level: "L3" },
+                    { name: "Zekeriya Yazıcı", level: "L3" },
+                    { name: "Mustafa Özkaya", level: "L2" },
+                    { name: "Sezer Güler", level: "L2" },
+                    { name: "Umut Ekin Özer", level: "L1" }
+                ]
+            },
+            "Korhan Kara": {
+                role: "Team Lead — Rumeysa Nur Küçük Grubu",
+                members: [
+                    { name: "Aybüke Özkan", level: "L3" },
+                    { name: "Yusuf Haspolat", level: "L3" },
+                    { name: "Emirhan Akbulut", level: "L2" },
+                    { name: "Koray Ana", level: "L2" },
+                    { name: "Ahmet Ezdeşir", level: "L1" }
+                ]
+            },
+            "Dilan Yılmaz": {
+                role: "Team Lead — Rumeysa Nur Küçük Grubu",
+                members: [
+                    { name: "Doğukan Durak", level: "L3" },
+                    { name: "Taner İldan", level: "L3" },
+                    { name: "Elif Davutoğlu", level: "L2" },
+                    { name: "Mikayıl Guliyev", level: "L2" }
+                ]
+            },
+            "Orkun Sözen": {
+                role: "Team Lead — Bülent Özen Grubu",
+                members: [
+                    { name: "Erdem Birinci", level: "L3" },
+                    { name: "Kerem Mert Yurdakul", level: "L3" },
+                    { name: "Bahadır Ateş", level: "L2" },
+                    { name: "Halil Can Güder", level: "L2" },
+                    { name: "Muammer Semih Pay", level: "L2" },
+                    { name: "Nusret Bostancı", level: "L2" },
+                    { name: "Yekda Yarem Hastürk", level: "L2" },
+                    { name: "Sinem Nurioğlu", level: "L1" },
+                    { name: "Bünyamin Taha Öztürk", level: "L0" }
+                ]
+            },
+            "Barış Güler": {
+                role: "Team Lead — Yunus Emre Coşkun Grubu",
+                members: [
+                    { name: "Ahmet Faruk Köseoğlu", level: "L3" },
+                    { name: "Berk Saldır", level: "L3" },
+                    { name: "Muhammed Bayel", level: "L3" },
+                    { name: "Arda Yarkın", level: "L2" },
+                    { name: "Muhammed Saatci", level: "L2" },
+                    { name: "Erdoğan Duman", level: "L1" },
+                    { name: "Beyza Nur Aybek", level: "L0" },
+                    { name: "Osman Salih Karatay", level: "L0" }
+                ]
+            },
+            "Şükran Saygılı": {
+                role: "Team Lead — Mehmet Esen Grubu",
+                members: [
+                    { name: "Alper Ömer Keskin", level: "L3" },
+                    { name: "Baran Filimci", level: "L3" },
+                    { name: "Caner Coşar", level: "L3" },
+                    { name: "Cebrail Peköz", level: "L3" },
+                    { name: "Gülden Doğruyol", level: "L3" },
+                    { name: "Furkan Köse", level: "L2" },
+                    { name: "Zeynep Aslan", level: "L2" },
+                    { name: "Ahmethan Kıymacı", level: "L1" },
+                    { name: "Furkan Gönen", level: "L0" },
+                    { name: "Melike Akyol", level: "L0" }
+                ]
+            },
+            "Ahmet Bozdağ": {
+                role: "Director (L7) — Solution Architect",
+                members: [
+                    { name: "Rahman Yasir Ateş", level: "L5" },
+                    { name: "Rıdvan Çelebi", level: "L5" },
+                    { name: "Sedat Demirbaş", level: "L5" },
+                    { name: "Arif Yıldız", level: "L4" },
+                    { name: "Ecem Yalım", level: "L4" },
+                    { name: "Gizem İlgar", level: "L4" },
+                    { name: "Hakan Özbilek", level: "L4" },
+                    { name: "İlter Peneklioğlu", level: "L4" },
+                    { name: "Mutlu Tanrıseven", level: "L4" },
+                    { name: "Ömer Kaan Sevinç", level: "L4" }
+                ]
+            }
+        };
+
+        // Make speaker names in the timeline clickable (only those with team data)
+        (function initSpeakerLinks() {
+            const items = document.querySelectorAll('.timeline-content strong');
+            items.forEach(strongEl => {
+                const original = strongEl.textContent;
+                // Split combined names like "Öner Öztürk & Mehmet Can Dik"
+                const parts = original.split(/\s*&\s*/);
+                strongEl.innerHTML = parts.map(part => {
+                    const name = part.trim();
+                    // Only wrap names that have team data — others stay as plain text
+                    if (speakerTeams[name]) {
+                        return `<span class="speaker-link" data-speaker="${name}">${name}</span>`;
+                    }
+                    return name;
+                }).join(' & ');
+            });
+
+            document.querySelectorAll('.speaker-link').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const name = el.getAttribute('data-speaker');
+                    openSpeakerModal(name);
+                });
+            });
+        })();
+
+        const speakerModal = document.getElementById('speaker-modal');
+        const speakerModalTitle = document.getElementById('speaker-modal-title');
+        const speakerModalRole = document.getElementById('speaker-modal-role');
+        const speakerModalList = document.getElementById('speaker-modal-list');
+
+        function openSpeakerModal(name) {
+            const data = speakerTeams[name];
+            speakerModalTitle.textContent = name;
+            speakerModalList.innerHTML = '';
+
+            if (!data) {
+                speakerModalRole.textContent = '';
+                speakerModalList.innerHTML = '<li class="speaker-modal-empty">Bu konuşmacı için doğrudan bağlı ekip bilgisi bulunmuyor.</li>';
+            } else {
+                speakerModalRole.innerHTML = `${data.role} <span class="speaker-modal-count">(${data.members.length} kişi)</span>`;
+                data.members.forEach(m => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="member-name">${m.name}</span><span class="member-level">${m.level}</span>`;
+                    speakerModalList.appendChild(li);
+                });
+            }
+            speakerModal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSpeakerModal() {
+            speakerModal.classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        speakerModal.querySelector('.speaker-modal-close').addEventListener('click', closeSpeakerModal);
+        speakerModal.querySelector('.speaker-modal-backdrop').addEventListener('click', closeSpeakerModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && speakerModal.classList.contains('is-open')) closeSpeakerModal();
+        });
+    </script>
+</body>
+
+</html>
